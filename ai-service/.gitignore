@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+
+# Datasets and trained models: too large / sensitive for git
+data/*
+!data/.gitkeep
+artifacts/*
+!artifacts/.gitkeep

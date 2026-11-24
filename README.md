@@ -4,7 +4,8 @@
 
 ```
 HR_Proj/
-├── backend/        ← Laravel API
+├── backend/        ← Laravel API (+ app/AI لميزات الذكاء الاصطناعي عبر API)
+├── ai-service/     ← Python (FastAPI) لتدريب واستضافة نماذجنا الخاصة
 └── frontend/       ← واجهة المستخدم (لم يُحدَّد الـ framework بعد)
 ```
 
@@ -90,11 +91,17 @@ backend/
 │   │   ├── Payroll.php
 │   │   └── EmployeeDocument.php
 │   │
-│   └── Services/                   # منطق العمل (Business logic)
-│       ├── LeaveRequestService.php # حساب أيام العمل، الموافقة/الرفض
-│       └── PayrollService.php      # حساب صافي الراتب، تاريخ الدفع
+│   ├── Services/                   # منطق العمل (Business logic)
+│   │   ├── LeaveRequestService.php # حساب أيام العمل، الموافقة/الرفض
+│   │   └── PayrollService.php      # حساب صافي الراتب، تاريخ الدفع
+│   │
+│   └── AI/                         # ميزات الذكاء الاصطناعي (انظر app/AI/README.md)
+│       ├── Clients/                # AiServiceClient (خدمة Python) + عميل الـ LLM API لاحقاً
+│       ├── Features/               # كلاس لكل ميزة (فرز السير الذاتية، مساعد السياسات…)
+│       └── Prompts/                # قوالب الـ prompts
 │
 ├── config/hr.php                   # إعدادات الـ HR (أيام العطلة، قرص المستندات)
+├── config/ai.php                   # رابط ومفتاح خدمة الـ AI
 ├── database/
 │   ├── migrations/                 # إنشاء الجداول
 │   ├── factories/                  # بيانات وهمية للاختبارات
@@ -111,6 +118,16 @@ backend/
 4. `…Controller` في `app/Http/Controllers/Api/V1/`
 5. أي منطق معقّد يروح `app/Services/` (مو في الـ Controller)
 6. سطر في `routes/api.php` + اختبار في `tests/Feature/Api/`
+
+## الذكاء الاصطناعي
+
+| النوع | المكان | أمثلة |
+|---|---|---|
+| استدعاء AI API خارجي | `backend/app/AI/` | تلخيص، كتابة وصف وظيفي، فرز السير الذاتية، مساعد أسئلة الموظفين |
+| نماذج خاصة (تدريب + استضافة) | `ai-service/` | توقّع ترك الموظفين، نطاقات الرواتب |
+
+الـ frontend يكلّم Laravel فقط؛ Laravel هو اللي يكلّم `ai-service` (بالهيدر `X-Service-Token`).
+التفاصيل في `ai-service/README.md` و `backend/app/AI/README.md`.
 
 ## العلاقات
 
