@@ -4,8 +4,8 @@
 
 ```
 HR_Proj/
-└── backend/        ← Laravel API
-    (frontend/      ← لاحقاً)
+├── backend/        ← Laravel API
+└── frontend/       ← واجهة المستخدم (لم يُحدَّد الـ framework بعد)
 ```
 
 ## التشغيل السريع
